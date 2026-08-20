@@ -1,25 +1,25 @@
-const div = document.getElementById("container");
-const button = document.getElementById("btn");
-const h2 = document.getElementById("h2");
+const div = document.getElementById('container');
+const button = document.getElementById('btn');
+console.log(div);
+const h2 = document.createElement("h2");
+h2.innerText = "Data is loading...";
+console.log(h2);
 
-h2.innerText = "Data is Loading";
+async function display(){
+    try{
+    div.appendChild(h2);
+        // div.innerHTML='<h2 style="color:blue;">Hello Using DOM</h2>';
+    const serverdata =await fetch('https://fakestoreapi.com/products');
+    const jsondata = await serverdata.json();
+    // console.log(jsondata[1].title)
+    div.innerHTML=`<h2 style="color:white;background-color:grey;"> ${JSON.stringify(jsondata)}</h2>`;
 
-async function display() {
-    try {
-        const serverData = await fetch(
-            "https://fakestoreapi.com/products"
-        );
-
-        const jsonData = await serverData.json();
-
-        console.log(jsonData[0].title);
-        console.log(jsonData);
-
-        h2.textContent = jsonData[0].title;
-
-    } catch (error) {
-        console.error(error);
-    }
+}catch(e){
+    console.log("error is:" + e);
+}
+finally{
+div.removeChild(h2);
+}
 }
 
-button.addEventListener("click", display);
+button.addEventListener('click',display);
